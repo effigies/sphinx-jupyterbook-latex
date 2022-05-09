@@ -407,7 +407,9 @@ class ListTableOfContents(SphinxPostTransform):
             # children entries, as values.
             for tocnode in self.document.traverse(HiddenCellNode):
                 if "latex-tableofcontents" in tocnode.attributes["classes"]:
-                    parent = tocnode.attributes["parent"]
+                    parent = tocnode.attributes.get("parent")
+                    if not parent:
+                        continue
                     if parent not in nodes_to_visit:
                         nodes_to_visit[parent] = []
                     nodes_to_visit[parent].append(tocnode)
